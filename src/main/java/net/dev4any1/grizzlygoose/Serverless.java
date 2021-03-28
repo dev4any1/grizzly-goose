@@ -27,6 +27,7 @@ import org.glassfish.grizzly.servlet.FilterRegistration;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
@@ -112,7 +113,7 @@ public class Serverless {
 		ServletRegistration registration = context.addServlet("ServletContainer", ServletContainer.class);
 		registration.addMapping("/*");
 		registration.setInitParameter("javax.ws.rs.Application", appClass.getName());
-
+		registration.setInitParameter("jersey.config.server.provider.classnames", MultiPartFeature.class.getName());
 		final FilterRegistration filter = context.addFilter("GuiceFilter", GuiceFilter.class);
 		filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), "/*");
 		context.createListener(configClass);
